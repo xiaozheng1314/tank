@@ -1,12 +1,15 @@
-
 import lombok.Data;
 
 import java.awt.*;
 
 @Data
-public class Tank {
+public class Bullet {
 
     private static final int SPEED = 10;
+
+    public static int WIDTH = 10;
+
+    public static int HEIGHT = 10;
 
     private int x;
 
@@ -14,11 +17,9 @@ public class Tank {
 
     private Dir dir;
 
-    private boolean moving = false;
-
     private TankFrame tf = null;
 
-    public Tank(int x, int y, Dir dir, TankFrame tf) {
+    public Bullet(int x, int y, Dir dir, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -27,14 +28,14 @@ public class Tank {
 
     public void paint(Graphics g) {
         Color c = g.getColor();
-        g.setColor(Color.blue);
-        g.fillRect(x, y, 50, 50);
+        g.setColor(Color.YELLOW);
+        g.fillOval(x, y, WIDTH, HEIGHT);
         g.setColor(c);
         move();
     }
 
     private void move() {
-        if (!moving) return;
+
         switch (dir) {
             case LEFT:
                 x -= SPEED;
@@ -49,10 +50,8 @@ public class Tank {
                 y += SPEED;
                 break;
         }
-    }
-
-
-    public void shut() {
-        tf.bullets.add(new Bullet(this.x, this.y, this.dir,this.tf));
+        if (x < 0 || y < 0 || x > TankFrame.GAME_HEIGHT || y > TankFrame.GAME_HEIGHT) {
+            this.tf.bullets.remove(this);
+        }
     }
 }
