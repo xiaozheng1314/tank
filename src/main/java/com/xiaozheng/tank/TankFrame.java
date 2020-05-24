@@ -1,3 +1,4 @@
+package com.xiaozheng.tank;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
